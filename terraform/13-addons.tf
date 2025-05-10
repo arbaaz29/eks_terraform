@@ -11,7 +11,7 @@ resource "aws_eks_addon" "cloudwatch" {
 }
 
 resource "aws_eks_addon" "vpc-cni" {
-  depends_on = [ aws_eks_addon.pod_identity_agent ]
+  depends_on = [ aws_eks_addon.pod_identity_agent, aws_eks_node_group.node_group ]
   cluster_name = aws_eks_cluster.otel-demo.name
   addon_name = "vpc-cni"
   addon_version = "v1.19.5-eksbuild.1"
@@ -34,7 +34,7 @@ resource "aws_eks_addon" "pod_identity_agent" {
 
 //ebs-csi
 resource "aws_eks_addon" "ebs-csi" {
-  depends_on = [ aws_eks_addon.pod_identity_agent ]
+  depends_on = [ aws_eks_addon.pod_identity_agent, aws_eks_node_group.node_group ]
   cluster_name = aws_eks_cluster.otel-demo.name
   addon_name = "aws-ebs-csi-driver"
   addon_version = "v1.43.0-eksbuild.1"
