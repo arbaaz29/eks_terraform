@@ -1,14 +1,22 @@
-# resource "null_resource" "update_helm_alb" {
+# resource "null_resource" "aws-alb" {
 #   provisioner "local-exec" {
-#     command = "helm repo add prometheus-community https://aws.github.io/eks-charts"
+#     command = "helm repo add ${var.aws-alb}"
 #   }
 
 #   depends_on = [aws_eks_cluster.otel-demo]
 # }
 
-# resource "null_resource" "update_helm_prom" {
+# resource "null_resource" "prometheus" {
 #   provisioner "local-exec" {
-#     command = "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
+#     command = "helm repo add ${var.prometheus}"
+#   }
+
+#   depends_on = [aws_eks_cluster.otel-demo]
+# }
+
+# resource "null_resource" "argocd" {
+#   provisioner "local-exec" {
+#     command = "helm repo add ${var.argocd}"
 #   }
 
 #   depends_on = [aws_eks_cluster.otel-demo]
@@ -19,7 +27,9 @@ resource "null_resource" "update_helm" {
     command = "helm repo update"
   }
 
-  # depends_on = [null_resource.update_helm_alb, null_resource.update_helm_prom]
+  depends_on = [
+    aws_eks_cluster.otel-demo
+  ]
 }
 
 resource "helm_release" "alb" {
@@ -27,7 +37,7 @@ resource "helm_release" "alb" {
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
-  namespace  = "default"
+  namespace  = "kube-system"
   version    = "1.8.1"
 
   set {
@@ -51,75 +61,25 @@ resource "helm_release" "alb" {
   ]
 }
 
-# resource "helm_release" "prometheus" {
-#   name = "prometheus"
 
-#   repository = "https://prometheus-community.github.io/helm-charts"
-#   chart      = "prometheus"
-#   namespace  = "otel-demo"
+# resource "helm_release" "argocd" {
+#   name = "argocd"
 
-#   set {
-#     name  = "alertmanager.enabled"
-#     value = "false"
-#   }
+#   repository = "https://argoproj.github.io/argo-helm"
+#   chart      = "argo-cd"
+#   namespace  = "kube-system"
 
-#   set {
-#     name  = "kube-state-metrics.enabled"
-#     value = "false"
-#   }
-
-#   set {
-#     name  = "prometheus-node-exporter.enabled"
-#     value = "false"
-#   }
-
-#   set {
-#     name  = "prometheus-pushgateway.enabled"
-#     value = "false"
-#   }
-
-#   set {
-#     name  = "serviceAccount.server.name"
-#     value = "prometheus"
-#   }
-
-#   # set {
-#   #   name  = "serviceAccount.server.create"
-#   #   value = "false"
-#   # }
-
-#   values = [ 
-#     file("./values.yaml")
-#    ]
-
-#   depends_on = [
-#     aws_eks_node_group.node_group,
+#   values = [
+#     file("scripts/argocd.yaml")
 #   ]
-# }
-
-# resource "helm_release" "cw" {
-#   create_namespace = true
-#   name = "cloudwatch"
-
-#   repository = "https://aws.github.io/eks-charts"
-#   chart      = "aws-cloudwatch-metrics"
-#   namespace  = "amazon-cloudwatch"
-#   version    = "0.0.11"
 
 #   set {
 #     name  = "clusterName"
 #     value = aws_eks_cluster.otel-demo.id
 #   }
 
-#   set {
-#     name  = "serviceAccount.name"
-#     value = "cloudwatch-agent"
-#   }
-
-
 #   depends_on = [
-#     # kubernetes_cluster_role.fluentd,
 #     aws_eks_node_group.node_group,
-#     aws_iam_role_policy_attachment.cw
+#     helm_release.alb
 #   ]
 # }

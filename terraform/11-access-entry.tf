@@ -38,21 +38,21 @@ resource "aws_eks_access_policy_association" "github" {
 }
 
 //console access
- resource "aws_eks_access_entry" "console" {
-   cluster_name      = aws_eks_cluster.otel-demo.name
-   principal_arn     = "arn:aws:iam::588738579349:user/EKS_finals"
-   type              = "STANDARD"
- }
+#  resource "aws_eks_access_entry" "console" {
+#    cluster_name      = aws_eks_cluster.otel-demo.name
+#    principal_arn     = "arn:aws:iam::588738579349:user/EKS_finals"
+#    type              = "STANDARD"
+#  }
 
-# //command to list out eks access policies available:
-# // aws eks list-access-policies --output table
+# # //command to list out eks access policies available:
+# # // aws eks list-access-policies --output table
 
-resource "aws_eks_access_policy_association" "console" {
-  cluster_name  = aws_eks_cluster.otel-demo.name
-  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
-  principal_arn = "arn:aws:iam::588738579349:user/EKS_finals"
+# resource "aws_eks_access_policy_association" "console" {
+#   cluster_name  = aws_eks_cluster.otel-demo.name
+#   policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+#   principal_arn = "arn:aws:iam::588738579349:user/EKS_finals"
 
-  access_scope {
-    type       = "cluster"
-  }
-}
+#   access_scope {
+#     type       = "cluster"
+#   }
+# }

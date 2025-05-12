@@ -313,9 +313,10 @@ resource "aws_iam_role_policy_attachment" "alb" {
 
 resource "aws_eks_pod_identity_association" "alb" {
   cluster_name    = aws_eks_cluster.otel-demo.name
-  namespace       = "default"
+  namespace       = "kube-system"
   service_account = "alb-ingress-controller"
   role_arn        = aws_iam_role.alb.arn
+  depends_on = [ aws_eks_node_group.node_group ]
 }
 
 //ebs-driver:
