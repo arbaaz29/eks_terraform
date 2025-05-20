@@ -64,7 +64,7 @@ metadata:
   namespace: otel-demo
 type: Opaque
 stringData:
-  smtp_password: "ombk pjrx fjqk ryec"
+  smtp_password: "1234 5678 9102 3456"
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -75,8 +75,8 @@ data:
     config.yml: |-
       global:
         smtp_smarthost: 'smtp.gmail.com:587'
-        smtp_from: 'arbazij@gmail.com'
-        smtp_auth_username: 'arbazij@gmail.com'
+        smtp_from: 'sender@gmail.com'
+        smtp_auth_username: 'sender@gmail.com'
         smtp_auth_password_file: '/etc/secrets/smtp_password'
 
       route:
@@ -88,7 +88,7 @@ data:
       receivers:
         - name: 'Mail Alert'
           email_configs:
-            - to: 'arbaazij2916@gmail.com'
+            - to: 'receiver@gmail.com'
               headers:
                 subject: 'Pod stuck in restart state'
 ---

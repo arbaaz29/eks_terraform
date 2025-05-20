@@ -71,35 +71,35 @@
 #                   number: 8080
 
 # ---
-# # no need to add to route53
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: otel-demo-alb-ingress
-#   namespace: default
-#   annotations:
-#     alb.ingress.kubernetes.io/scheme: internet-facing
-#     alb.ingress.kubernetes.io/load-balancer-name: eks-alb-only-http
-#     alb.ingress.kubernetes.io/target-type: ip
-#     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-#     # alb.ingress.kubernetes.io/group.name: otel-demo
-#     # alb.ingress.kubernetes.io/healthcheck-path: /healthz
-#     # alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
-#     # alb.ingress.kubernetes.io/subnets: subnet-0498eccef62fbed04,subnet-026507741e32f854a   # comma-separated subnet IDs
-#     # alb.ingress.kubernetes.io/security-groups: sg-0aa03d918a9b241b7 # security group ID for the ALB
-#     # alb.ingress.kubernetes.io/ssl-redirect: '443'
-# spec:
-#   ingressClassName: alb
-#   rules:
-#     - http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: frontend-proxy
-#                 port:
-#                   number: 8080
+# no need to add to route53
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: otel-demo-alb-ingress
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/load-balancer-name: eks-alb-only-http
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    # alb.ingress.kubernetes.io/group.name: otel-demo
+    # alb.ingress.kubernetes.io/healthcheck-path: /healthz
+    # alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
+    # alb.ingress.kubernetes.io/subnets: subnet-0498eccef62fbed04,subnet-026507741e32f854a   # comma-separated subnet IDs
+    # alb.ingress.kubernetes.io/security-groups: sg-0aa03d918a9b241b7 # security group ID for the ALB
+    # alb.ingress.kubernetes.io/ssl-redirect: '443'
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-proxy
+                port:
+                  number: 8080
 ---
 # # no need to add to route53
 # apiVersion: networking.k8s.io/v1
@@ -160,26 +160,26 @@
 #                 port:
 #                   number: 9090
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: otel-demo-alb-ingress-argocd
-  namespace: argocd
-  annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/load-balancer-name: eks-alb-only-http-argocd
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-    alb.ingress.kubernetes.io/backend-protocol: HTTP
-spec:
-  ingressClassName: alb
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: argocd-server
-                port:
-                  number: 80
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: otel-demo-alb-ingress-argocd
+#   namespace: argocd
+#   annotations:
+#     alb.ingress.kubernetes.io/scheme: internet-facing
+#     alb.ingress.kubernetes.io/load-balancer-name: eks-alb-only-http-argocd
+#     alb.ingress.kubernetes.io/target-type: ip
+#     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+#     alb.ingress.kubernetes.io/backend-protocol: HTTP
+# spec:
+#   ingressClassName: alb
+#   rules:
+#     - http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: argocd-server
+#                 port:
+#                   number: 80

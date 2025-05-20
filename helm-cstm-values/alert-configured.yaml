@@ -19,10 +19,10 @@ prometheus:
         - name: 'Mail Alert'
           email_configs:
             - smarthost: 'smtp.gmail.com:587'
-              auth_username: 'arbazij@gmail.com'
-              auth_password: "ombk pjrx fjqk ryec" # deleted create a new auth pass for demonstration
-              from: 'arbazij@gmail.com'
-              to: 'arbaazij2916@gmail.com'
+              auth_username: 'sender@gmail.com' # use your email
+              auth_password: "1234 5678 9102 3456" # create app password from your account
+              from: 'sender@gmail.com' 
+              to: 'client@gmail.com'
               headers:
                 subject: 'Pod stuck in restart state'
       
